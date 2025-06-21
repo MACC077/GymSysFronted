@@ -1,4 +1,5 @@
 # GymSysFronted
+<<<<<<< HEAD
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
 
@@ -57,3 +58,6 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+A Fronted implementation using Angular of GymAPI
+>>>>>>> 12b5a8abd5453df05d8f81461e5556e483ed926c
