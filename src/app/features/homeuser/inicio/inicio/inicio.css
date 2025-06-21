@@ -1,0 +1,25 @@
+.dia-card {
+  background-color: #f8f9fa; /* Fondo gris claro */
+  border: 1px solid #dee2e6; /* Borde sutil */
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Relieve suave */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.dia-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dia-actual {
+  background-color: var(--accent-color);
+  color: white !important; /* Asegura que todo el texto sea blanco */
+  font-weight: bold;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+.dia-actual * {
+  color: white !important; /* Aplica blanco también a los hijos como .text-muted */
+}

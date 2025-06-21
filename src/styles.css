@@ -1,1 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  /*General styles for the page desing*/
+  --primary-color: #E63946;
+  --accent-color: #1A1F71;
+  --dark-color: #1D1D1D;
+  --light-color: #F1F1F1;
+  --background-color: #F8F9FA;
+  /*General desing for modals*/
+  --primary-modal-color: #0d6efd;      /* Azul */
+  --success-modal-color: #198754;      /* Verde */
+  --error-modal-color: #dc3545;        /* Rojo */
+  --warning-modal-color: #ffc107;      /* Amarillo */
+  --info-modal-color: #0dcaf0;         /* Cian */
+  --text-modal-light: #fff;
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--dark-color);
+}
+
+.home-hero {
+  background: linear-gradient(to right, rgba(26, 31, 113, 0.9), rgba(230, 57, 70, 0.9)),
+              url('assets//img/gym-hero.jpg') center/cover no-repeat;
+  min-height: 70vh;
+  padding: 4rem 2rem;
+}
+
+.card-custom {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.card-custom:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #d62839;
+}
+
+.btn-outline-dark:hover {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+input::placeholder {
+  font-style: italic;
+}
+
+/*Modal overrinding desing*/
+.toast-success {
+  background-color: var(--success-modal-color) !important;
+}
+
+.toast-error {
+  background-color: var(--error-modal-color) !important;
+}
+
+.toast-info {
+  background-color: var(--info-modal-color) !important;
+}
+
+.toast-warning {
+  background-color: var(--warning-modal-color) !important;
+}
+
+.toast {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+}
+

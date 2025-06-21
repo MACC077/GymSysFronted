@@ -22,10 +22,18 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {
@@ -83,6 +91,10 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "scripts": [
+             "node_modules/@popperjs/core/dist/umd/popper.min.js",
+             "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           }
         }

@@ -1,0 +1,39 @@
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="card p-4 card-custom" style="width: 100%; max-width: 400px;">
+    <div class="text-center mb-4">
+      <h3 style="color: var(--accent-color); font-weight: bold;">Bienvenido de nuevo</h3>
+      <p class="text-muted">Inicia sesión para continuar</p>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit) ="login()">
+      <div class="mb-3">
+        <label for="username" class="form-label">Correo</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+          <input type="text" class="form-control" id="username" placeholder="Ingrese su usuario" formControlName="usuario">
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" formControlName="contrasena">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+
+      <div class="text-center mt-3">
+        <a href="#" class="text-decoration-none" style="color: var(--accent-color);">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="text-center">
+        <p class="mb-1 text-muted">¿No tienes una cuenta?</p>
+        <a routerLink="/register" class="btn btn-outline-dark w-100 mb-2">Crear cuenta</a>
+        <a routerLink="/home" class="text-decoration-none" style="color: var(--accent-color); font-weight: 500;">Volver al inicio</a>
+      </div>
+    </form>
+  </div>
+</div>

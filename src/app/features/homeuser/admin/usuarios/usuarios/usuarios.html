@@ -1,0 +1,133 @@
+<div class="container mt-5">
+  <h3 class="text-center fw-bold mb-4" style="color: var(--primary-color);">
+    <i class="bi bi-people-fill me-2"></i>Lista de Usuarios
+  </h3>
+
+  @if (usuarios.length > 0) {
+    <div class="table-responsive shadow-lg rounded">
+      <table class="table table-hover table-bordered align-middle text-center">
+        <thead class="table-light">
+          <tr>
+            <th scope="col"><i class="bi bi-hash me-1"></i>ID</th>
+            <th scope="col"><i class="bi bi-person-badge-fill me-1"></i>Nombre</th>
+            <th scope="col"><i class="bi bi-envelope-fill me-1"></i>Correo</th>
+            <th scope="col"><i class="bi bi-telephone-fill me-1"></i>Teléfono</th>
+            <th scope="col"><i class="bi bi-geo-alt-fill me-1"></i>Dirección</th>
+            <th scope="col"><i class="bi bi-calendar-event-fill me-1"></i>Fecha Registro</th>
+            <th scope="col"><i class="bi bi-gem me-1 text-primary"></i>Plan</th>
+            <th scope="col"><i class="bi bi-person-lock me-1"></i>Rol</th>
+            <th scope="col"><i class="bi bi-toggle-on me-1"></i>Estado</th>
+            <th scope="col"><i class="bi bi-tools me-1"></i>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios; track usuario.id) {
+            <tr>
+              <td>{{ usuario.id }}</td>
+              <td class="fw-semibold">{{ usuario.nombre + " " + usuario.apellido }}</td>
+              <td class="text-muted">{{ usuario.correo }}</td>
+              <td class="text-muted">{{ usuario.telefono }}</td>
+              <td class="text-muted">{{ usuario.direccion }}</td>
+              <td class="text-muted">{{ usuario.fechaRegistro | date:'dd/MM/yyyy' }}</td>
+              <td class="text-muted">{{ usuario.plan}}</td>
+              <td class="text-muted">{{ usuario.rolNombre }}</td>
+              <td class="fw-semibold">
+                <span [ngClass]="usuario.activo ? 'text-success' : 'text-danger'">
+                  {{ usuario.activo ? "Activo" : "Inactivo" }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="editarUsuario(usuario)">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="eliminarUsuario(usuario.id)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="alert alert-warning text-center mt-4" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>No hay usuarios para mostrar.
+    </div>
+  }
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow" style="border-radius: 1rem;">
+      <!-- Encabezado -->
+      <div class="modal-header" style="background-color: var(--primary-color); color: white;">
+        <h5 class="modal-title" id="editarUsuarioModalLabel">
+          <i class="bi bi-pencil-fill me-2"></i>Editar Usuario
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <!-- Cuerpo -->
+      <div class="modal-body bg-light-subtle">
+        <form [formGroup]="formEditarUsuario" (ngSubmit)="guardarCambiosUsuario()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Apellido</label>
+              <input type="text" class="form-control" formControlName="apellido">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Correo</label>
+              <input type="email" class="form-control" formControlName="correo">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Teléfono</label>
+              <input type="text" class="form-control" formControlName="telefono">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Dirección</label>
+              <input type="text" class="form-control" formControlName="direccion">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Estado</label>
+              <select class="form-select" formControlName="activo">
+                <option [value]="true">Activo</option>
+                <option [value]="false">Inactivo</option>
+              </select>
+            </div>
+
+            <!-- Plan -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Plan</label>
+              <select class="form-select" formControlName="planId">
+                @for(plan of planes; track plan.id){ <!--Ajustar esta monda crea el servicio para planes y hacemos el llamado-->
+                  <!-- <option [value]="plan.id">{{ plan.nombre }}</option> -->
+                   <option>{{ plan }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="mt-4 text-end">
+            <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+              <i class="bi bi-x-circle me-1"></i>Cancelar
+            </button>
+            <button type="submit" class="btn" style="background-color: var(--accent-color); color: white;">
+              <i class="bi bi-save2 me-1"></i>Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

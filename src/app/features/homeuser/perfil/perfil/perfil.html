@@ -1,0 +1,55 @@
+<div class="container d-flex justify-content-center mt-5">
+  <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 1rem;">
+    <h4 class="text-center mb-4 text-primary fw-bold">
+      <i class="bi bi-person-circle me-2"></i>Mi Perfil
+    </h4>
+
+    <form [formGroup]="perfilForm" (ngSubmit)="guardarCambios()">
+      
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-person-fill me-1"></i>Nombre</label>
+        <input type="text" class="form-control" formControlName="nombre" placeholder="Tu nombre">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-person-fill me-1"></i>Apellido</label>
+        <input type="text" class="form-control" formControlName="apellido" placeholder="Tu apellido">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-envelope-fill me-1"></i>Correo</label>
+        <input type="email" class="form-control" formControlName="correo" placeholder="ejemplo@correo.com">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-telephone-fill me-1"></i>Teléfono</label>
+        <input type="text" class="form-control" formControlName="telefono" placeholder="Número de contacto">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-geo-alt-fill me-1"></i>Dirección</label>
+        <input type="text" class="form-control" formControlName="direccion" placeholder="Tu dirección">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-lock-fill me-1"></i>Nueva Contraseña</label>
+        <div class="input-group">
+          <input [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="contrasena">
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label"><i class="bi bi-box-seam me-1"></i>Plan Actual</label>
+        <input type="text" class="form-control" [value]="userData.plan" disabled>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="perfilForm.invalid">
+        <i class="bi bi-save2-fill me-1"></i>Guardar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+

@@ -1,3 +1,29 @@
 import { Routes } from '@angular/router';
+import { Home } from './features/home/home/home';
+import { Error } from './features/error/error/error';
+import { Usuarios } from './features/homeuser/admin/usuarios/usuarios/usuarios';
+import { Login } from './features/login/login/login';
+import { Homeuser } from './features/homeuser/homeuser/homeuser';
+import { Perfil } from './features/homeuser/perfil/perfil/perfil';
+import { Servicios } from './features/homeuser/servicios/servicios';
+import { Inicio } from './features/homeuser/inicio/inicio/inicio';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    //Call components
+    { path: 'home', component: Home },
+    { path: 'login', component:Login}, 
+    //Component with sub-routes
+    { path: 'homeuser', component: Homeuser,
+        children:[
+            { path:'', redirectTo:'inicio', pathMatch: 'full'},
+            { path: 'inicio', component: Inicio},
+            { path: 'perfil', component: Perfil },
+            { path: 'servicios', component: Servicios },
+            { path: 'usuarios', component: Usuarios }
+        ]
+    },
+    //Set default page 
+    { path: '', redirectTo:'/home', pathMatch:'full'},
+    //Set error page if the user try to get on wrong URI
+    { path: '**', component: Error },
+];
