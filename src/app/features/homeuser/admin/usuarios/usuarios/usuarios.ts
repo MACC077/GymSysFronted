@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../../../../core/services/usuario/usuarioService';
+import { PlanService } from '../../../../../core/services/plan/plan-service';
 import { Usuario } from '../../../../../models/usuario.model';
+import { Plan } from '../../../../../models/plan.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -16,34 +18,48 @@ declare var bootstrap: any;
 export class Usuarios implements OnInit {
 
   usuarios:Usuario[] = [];
-  planes:any[] = ["Gato", "Perro", "Etc", "Llename con un Endpoint"];
+  planes:Plan[] = [];
 
   formEditarUsuario!: FormGroup;
   usuarioSeleccionado: any = null;
 
-  constructor(private services: UsuarioService, private fb: FormBuilder, private toastr: ToastrService){}
+  constructor(
+    private usuarioServices: UsuarioService, 
+    private planServices: PlanService,
+    private fb: FormBuilder, 
+    private toastr: ToastrService
+  ){}
 
   ngOnInit(): void {
     this.loadUsuarios();
-    this.initModalForm();
     this.cargarPlanes();
+    this.initModalForm();
   }
 
   loadUsuarios(): void{
-    this.services.getAllUsuarios().subscribe({
+    this.usuarioServices.getAllUsuarios().subscribe({
       next:(data) => {
         this.usuarios = data;
-        console.log(this.usuarios);
+        //console.log(this.usuarios);
       },
-      error: (err) => console.log('Error al cargar usuarios', err)
+      error: (err) => {
+        console.log('Error al cargar usuarios', err);
+        this.toastr.error('Error al cargar usuarios');
+      }
     });
   }
 
   cargarPlanes(): void {
-    // this.planService.getPlanes().subscribe({
-    //   next: (data) => this.planes = data,
-    //   error: (err) => console.error('Error al cargar planes', err)
-    // });
+    this.planServices.getAllPlanes().subscribe({
+      next:(data) => {
+        this.planes = data;
+        //console.log(this.planes);
+      },
+      error:(err) => { 
+        console.log('Error al cargar Planes', err);
+        this.toastr.error('Error al cargar Planes');
+      }
+    });
   }
 
   initModalForm():void{
@@ -61,7 +77,17 @@ export class Usuarios implements OnInit {
  
   editarUsuario(usuario:Usuario): void{
     this.usuarioSeleccionado = usuario;
-    this.formEditarUsuario.patchValue(usuario);
+
+    this.formEditarUsuario.patchValue({
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      correo: usuario.correo,
+      telefono: usuario.telefono,
+      direccion: usuario.direccion,
+      activo: usuario.activo,
+      planId: usuario.planId
+    });
+
     const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal')!);
     modal.show();
   }
@@ -76,11 +102,13 @@ export class Usuarios implements OnInit {
 
       const datosActualizados = { ...this.usuarioSeleccionado, ...this.formEditarUsuario.value };
 
-      this.services.updateUsuario(this.usuarioSeleccionado.id, datosActualizados).subscribe({
+      console.log(datosActualizados);
+
+      this.usuarioServices.updateUsuario(this.usuarioSeleccionado.id, datosActualizados).subscribe({
         next: () => {
           this.toastr.success('Usuario actualizado correctamente');
-          const modal = bootstrap.Modal.getInstance(document.getElementById('editarUsuarioModal')!);
-          modal?.hide();
+          //const modal = bootstrap.Modal.getInstance(document.getElementById('editarUsuarioModal')!);
+          //modal?.hide();
           this.loadUsuarios(); // refresca tabla
         },
         error: () => {

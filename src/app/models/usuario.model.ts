@@ -8,6 +8,7 @@ export interface Usuario {
     fechaRegistro:Date;
     activo:boolean;
     rolNombre:string;
+    planId:number;
     plan:string;
 }
 

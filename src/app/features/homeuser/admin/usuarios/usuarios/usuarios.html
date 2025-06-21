@@ -109,9 +109,8 @@
             <div class="col-md-6">
               <label class="form-label fw-semibold" style="color: var(--accent-color);">Plan</label>
               <select class="form-select" formControlName="planId">
-                @for(plan of planes; track plan.id){ <!--Ajustar esta monda crea el servicio para planes y hacemos el llamado-->
-                  <!-- <option [value]="plan.id">{{ plan.nombre }}</option> -->
-                   <option>{{ plan }}</option>
+                @for(plan of planes; track plan.id){ 
+                  <option [value]="plan.id">{{ plan.nombre }}</option>
                 }
               </select>
             </div>
