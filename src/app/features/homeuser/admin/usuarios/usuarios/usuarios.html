@@ -40,7 +40,7 @@
                 <button class="btn btn-sm btn-outline-primary me-2" (click)="editarUsuario(usuario)">
                   <i class="bi bi-pencil-fill"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger" (click)="eliminarUsuario(usuario.id)">
+                <button class="btn btn-sm btn-outline-danger" (click)="eliminarUsuarioModal(usuario)">
                   <i class="bi bi-trash-fill"></i>
                 </button>
               </td>
@@ -57,7 +57,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
+<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content shadow" style="border-radius: 1rem;">
       <!-- Encabezado -->
@@ -126,6 +126,31 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Confirmación Eliminar -->
+<div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-sm" style="border-radius: 0.8rem;">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="confirmarEliminarModalLabel">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar Eliminación
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="fw-semibold mb-3">¿Estás seguro de que deseas eliminar este usuario?</p>
+        <div class="d-flex justify-content-center gap-3">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancelar
+          </button>
+          <button type="button" class="btn btn-danger" (click)="eliminarUsuario()">
+            <i class="bi bi-trash-fill me-1"></i>Eliminar
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -45,7 +45,18 @@ export class Login {
         this.router.navigate(['/homeuser']);
       },
       error:(err) =>{
-        this.toastr.error('Usuario y/o contraseña invalido', 'Error');
+
+        if(err.status === 0){
+          this.toastr.error('Servidor no disponible. Intente más tarde.', 'Error de conexión');
+          return;
+        }
+        
+        if(err.status === 401 || err.status === 400){
+          this.toastr.error('Usuario y/o contraseña invalido', 'Error');
+          return;
+        }
+
+        this.toastr.error('Ocurrió un error inesperado', 'Error');
         console.error('Login error', err);
       }
     });

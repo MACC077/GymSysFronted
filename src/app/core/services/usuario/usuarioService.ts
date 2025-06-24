@@ -28,8 +28,8 @@ export class UsuarioService {
     return this.http.put<Usuario>(`${this.apiUrlBase}UpdateUsuario/${id}`, usuario);
   }
 
-  changeStateUsuario(id: number): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.apiUrlBase}UpdateUsuario/${id}`, {});
+  changeStateUsuario(id: number, estado: boolean): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.apiUrlBase}ChangeStateUsuario/${id}`, estado);
   }
 
   deleteUsuario(id: number): Observable<void> {

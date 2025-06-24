@@ -91,9 +91,37 @@ export class Usuarios implements OnInit {
     const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal')!);
     modal.show();
   }
+  
+  eliminarUsuarioModal(usuario:Usuario):void{
+    this.usuarioSeleccionado = usuario;
 
-  eliminarUsuario(id:number):void{
+    const modal = new bootstrap.Modal(document.getElementById('confirmarEliminarModal'));
+    modal.show();
+  }
 
+  eliminarUsuario():void{
+
+    if(this.usuarioSeleccionado){
+      
+      this.usuarioServices.changeStateUsuario(this.usuarioSeleccionado.id, false).subscribe({
+
+        next: (data) => {
+          this.toastr.success(`Usuario ${this.usuarioSeleccionado?.nombre} anulado correctamente`);
+          this.loadUsuarios();
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('confirmarEliminarModal')!);
+          modal?.hide();
+
+          this.usuarioSeleccionado = null;
+        },
+
+        error: (err) => {
+          this.toastr.error('Error al anular el usuario');
+          console.log(err);
+        }
+
+      });
+    }
   }
 
   guardarCambiosUsuario():void{
@@ -107,11 +135,10 @@ export class Usuarios implements OnInit {
       this.usuarioServices.updateUsuario(this.usuarioSeleccionado.id, datosActualizados).subscribe({
         next: () => {
           this.toastr.success('Usuario actualizado correctamente');
-          //const modal = bootstrap.Modal.getInstance(document.getElementById('editarUsuarioModal')!);
-          //modal?.hide();
           this.loadUsuarios(); // refresca tabla
+          this.usuarioSeleccionado = null;
         },
-        error: () => {
+        error: (err) => {
           this.toastr.error('Error al actualizar usuario');
         }
       });
