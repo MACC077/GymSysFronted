@@ -3,6 +3,12 @@
     <i class="bi bi-people-fill me-2"></i>Lista de Usuarios
   </h3>
 
+  <div class="text-end mb-3">
+    <button class="btn btn-success" (click)="abrirModalCrearUsuario()">
+      <i class="bi bi-person-plus-fill me-1"></i>Nuevo Usuario
+    </button>
+  </div>
+
   @if (usuarios.length > 0) {
     <div class="table-responsive shadow-lg rounded">
       <table class="table table-hover table-bordered align-middle text-center">
@@ -56,7 +62,116 @@
   }
 </div>
 
-<!-- Modal -->
+<!-- Modal Crear Usuario -->
+<div class="modal fade" id="crearUsuarioModal" tabindex="-1" aria-labelledby="crearUsuarioModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow" style="border-radius: 1rem;">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="crearUsuarioModalLabel">
+          <i class="bi bi-person-plus-fill me-2"></i>Crear Usuario
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body bg-light-subtle">
+        <form [formGroup]="formCrearUsuario" (ngSubmit)="crearNuevoUsuario()">
+          <div class="row g-3">
+            <!-- Nombre -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+            <!-- Apellido -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Apellido</label>
+              <input type="text" class="form-control" formControlName="apellido">
+            </div>
+            <!-- Correo -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Correo</label>
+              <input type="email" class="form-control" formControlName="correo">
+            </div>
+            <!-- Teléfono -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Teléfono</label>
+              <input type="text" class="form-control" formControlName="telefono">
+            </div>
+            <!-- Dirección -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Dirección</label>
+              <input type="text" class="form-control" formControlName="direccion">
+            </div>
+            <!-- Estado -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Estado</label>
+              <select class="form-select" formControlName="activo">
+                <option [value]="true">Activo</option>
+                <option [value]="false">Inactivo</option>
+              </select>
+            </div>
+            <!-- Plan -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Plan</label>
+              <select class="form-select" formControlName="planId">
+                <option value="">Seleccione</option>
+                @for(plan of planes; track plan.id){
+                  <option [value]="plan.id">{{ plan.nombre }}</option>
+                }
+              </select>
+            </div>
+            <!-- Rol -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Rol</label>
+              <select class="form-select" formControlName="rolId">
+                <option value="">Seleccione</option>
+                @for(rol of roles; track rol.id){
+                  <option [value]="rol.id">{{ rol.nombre }}</option>
+                }
+              </select>
+            </div>
+            <!-- Contraseña -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Contraseña</label>
+              <input [type]="mostrarPassword ? 'text' : 'password' " class="form-control" formControlName="contrasena">
+              <button class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                <i class="bi" [ngClass]="mostrarPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+              </button>
+              @if(formCrearUsuario.get('contrasena')?.touched && formCrearUsuario.get('contrasena')?.hasError('minlength')){
+                <div class="text-danger small mt-1">
+                  La contraseña debe tener al menos 6 caracteres.
+                </div>
+              }
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Confirmar Contraseña</label>
+              <input [type]="mostrarPassword ? 'text' : 'password' " class="form-control" formControlName="confirmarContrasena">
+              @if(formCrearUsuario.hasError('noCoincide') && formCrearUsuario.get('confirmarContrasena')?.touched){
+                <div  class="text-danger small mt-1">
+                  Las contraseñas no coinciden.
+                </div>
+              }
+            </div>
+
+          </div>
+          <!-- Botones -->
+          <div class="mt-4 text-end">
+            <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+              <i class="bi bi-x-circle me-1"></i>Cancelar
+            </button>
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-circle me-1"></i>Crear
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal Editar-->
 <div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content shadow" style="border-radius: 1rem;">
@@ -114,8 +229,18 @@
                 }
               </select>
             </div>
-          </div>
 
+            <!-- Rol -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Rol</label>
+              <select class="form-select" formControlName="rolId">
+                @for(rol of roles; track rol.id){
+                  <option [value]="rol.id">{{ rol.nombre }}</option>
+                }
+              </select>
+            </div>
+
+          </div>
           <!-- Botones -->
           <div class="mt-4 text-end">
             <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">

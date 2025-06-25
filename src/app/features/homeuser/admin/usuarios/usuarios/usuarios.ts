@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../../../../core/services/usuario/usuarioService';
 import { PlanService } from '../../../../../core/services/plan/plan-service';
+import { RolService } from '../../../../../core/services/rol/rol-service';
 import { Usuario } from '../../../../../models/usuario.model';
 import { Plan } from '../../../../../models/plan.model';
+import { Rol } from '../../../../../models/rol.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -19,20 +21,26 @@ export class Usuarios implements OnInit {
 
   usuarios:Usuario[] = [];
   planes:Plan[] = [];
+  roles:Rol[] = [];
 
   formEditarUsuario!: FormGroup;
+  formCrearUsuario!: FormGroup;
+
   usuarioSeleccionado: any = null;
+  mostrarPassword: boolean = false;
 
   constructor(
     private usuarioServices: UsuarioService, 
     private planServices: PlanService,
+    private rolServices: RolService,
     private fb: FormBuilder, 
     private toastr: ToastrService
   ){}
 
   ngOnInit(): void {
     this.loadUsuarios();
-    this.cargarPlanes();
+    this.loadPlanes();
+    this.loadRoles();
     this.initModalForm();
   }
 
@@ -43,37 +51,89 @@ export class Usuarios implements OnInit {
         //console.log(this.usuarios);
       },
       error: (err) => {
-        console.log('Error al cargar usuarios', err);
         this.toastr.error('Error al cargar usuarios');
+        console.log('Error al cargar usuarios', err);
       }
     });
   }
 
-  cargarPlanes(): void {
+  loadPlanes(): void {
     this.planServices.getAllPlanes().subscribe({
       next:(data) => {
         this.planes = data;
         //console.log(this.planes);
       },
       error:(err) => { 
-        console.log('Error al cargar Planes', err);
         this.toastr.error('Error al cargar Planes');
+        console.log('Error al cargar Planes', err);
+      }
+    });
+  }
+
+  loadRoles():void{
+    this.rolServices.getAllRoles().subscribe({
+      next:(data) => {
+        this.roles = data;
+        //console.log(this.roles);
+      },
+      error:(err) => {
+        this.toastr.error('Error al cargar Roles');
+        console.log('Error al cargar Roles', err);
       }
     });
   }
 
   initModalForm():void{
-    this.formEditarUsuario = this.fb.group({
+
+    //Create Form
+    this.formCrearUsuario = this.fb.group({
       nombre:['',Validators.required],
       apellido:['',Validators.required],
-      correo:['',Validators.required],
+      correo:['',[Validators.required,Validators.email]],
       telefono:['',Validators.required],
       direccion:['',Validators.required],
       activo:[true],
-      planId: ['', Validators.required]  
+      planId:['',Validators.required],
+      rolId:['', Validators.required],
+      contrasena:['',[Validators.required,Validators.minLength(6)]],
+      confirmarContrasena:['',Validators.required]
+    }, { validator: this.validarContrasenasIguales });
+
+    //Edit Form
+    this.formEditarUsuario = this.fb.group({
+      nombre:['',Validators.required],
+      apellido:['',Validators.required],
+      correo:['',[Validators.required,Validators.email]],
+      telefono:['',Validators.required],
+      direccion:['',Validators.required],
+      activo:[true],
+      planId: ['', Validators.required],
+      rolId:['', Validators.required]
     });
   }
 
+  abrirModalCrearUsuario():void {
+    this.formCrearUsuario.reset({activo:true}); //Resetear el formulario
+    const modal = new bootstrap.Modal(document.getElementById("crearUsuarioModal")!);
+    modal.show();
+  }
+
+  crearNuevoUsuario():void{
+
+    if(this.formCrearUsuario.valid){
+
+      this.usuarioServices.addUsuario(this.formCrearUsuario.value).subscribe({
+        next:() => {
+          this.toastr.success('Usuario creado correctamente');
+          this.loadUsuarios();
+        },
+        error:(err) => {
+          this.toastr.error('Error al crear el usuario');
+          console.log(err);
+        },
+      });
+    }
+  }
  
   editarUsuario(usuario:Usuario): void{
     this.usuarioSeleccionado = usuario;
@@ -85,7 +145,8 @@ export class Usuarios implements OnInit {
       telefono: usuario.telefono,
       direccion: usuario.direccion,
       activo: usuario.activo,
-      planId: usuario.planId
+      planId: usuario.planId,
+      rolId: usuario.rolId
     });
 
     const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal')!);
@@ -97,6 +158,28 @@ export class Usuarios implements OnInit {
 
     const modal = new bootstrap.Modal(document.getElementById('confirmarEliminarModal'));
     modal.show();
+  }
+
+  guardarCambiosUsuario():void{
+    
+    if (this.formEditarUsuario.valid && this.usuarioSeleccionado) {
+
+      const datosActualizados = { ...this.usuarioSeleccionado, ...this.formEditarUsuario.value };
+
+      console.log(datosActualizados);
+
+      this.usuarioServices.updateUsuario(this.usuarioSeleccionado.id, datosActualizados).subscribe({
+        next: () => {
+          this.toastr.success('Usuario actualizado correctamente');
+          this.loadUsuarios(); // refresca tabla
+          this.usuarioSeleccionado = null;
+        },
+        error: (err) => {
+          this.toastr.error('Error al actualizar usuario');
+          console.log(err);
+        }
+      });
+    }
   }
 
   eliminarUsuario():void{
@@ -124,24 +207,14 @@ export class Usuarios implements OnInit {
     }
   }
 
-  guardarCambiosUsuario():void{
-    
-    if (this.formEditarUsuario.valid && this.usuarioSeleccionado) {
-
-      const datosActualizados = { ...this.usuarioSeleccionado, ...this.formEditarUsuario.value };
-
-      console.log(datosActualizados);
-
-      this.usuarioServices.updateUsuario(this.usuarioSeleccionado.id, datosActualizados).subscribe({
-        next: () => {
-          this.toastr.success('Usuario actualizado correctamente');
-          this.loadUsuarios(); // refresca tabla
-          this.usuarioSeleccionado = null;
-        },
-        error: (err) => {
-          this.toastr.error('Error al actualizar usuario');
-        }
-      });
-    }
+  validarContrasenasIguales(group: FormGroup) {
+    const pass = group.get('contrasena')?.value;
+    const confirm = group.get('confirmarContrasena')?.value;
+    return pass === confirm ? null : { noCoincide: true };
   }
+
+  togglePasswordVisibility(): void {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
+
 }
