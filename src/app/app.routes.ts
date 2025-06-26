@@ -7,6 +7,7 @@ import { Homeuser } from './features/homeuser/homeuser/homeuser';
 import { Perfil } from './features/homeuser/perfil/perfil/perfil';
 import { Servicios } from './features/homeuser/servicios/servicios';
 import { Inicio } from './features/homeuser/inicio/inicio/inicio';
+import { Planes } from './features/homeuser/admin/planes/planes/planes';
 
 export const routes: Routes = [
     //Call components
@@ -19,7 +20,8 @@ export const routes: Routes = [
             { path: 'inicio', component: Inicio},
             { path: 'perfil', component: Perfil },
             { path: 'servicios', component: Servicios },
-            { path: 'usuarios', component: Usuarios }
+            { path: 'usuarios', component: Usuarios },
+            { path: 'planes', component:Planes }
         ]
     },
     //Set default page 

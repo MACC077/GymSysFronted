@@ -3,7 +3,7 @@ export interface Plan {
     nombre:string,
     descripcion:string,
     precio:number,
-    duraciondias:number,
+    duracionDias:number,
     activo: boolean,
-    fechaRegisto:Date
+    fechaRegistro:Date
 }

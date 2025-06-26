@@ -1,29 +1,32 @@
 <div class="container mt-5">
+  <!-- Título -->
   <h3 class="text-center fw-bold mb-4" style="color: var(--primary-color);">
     <i class="bi bi-people-fill me-2"></i>Lista de Usuarios
   </h3>
 
+  <!-- Botón "Nuevo Usuario" -->
   <div class="text-end mb-3">
     <button class="btn btn-success" (click)="abrirModalCrearUsuario()">
-      <i class="bi bi-person-plus-fill me-1"></i>Nuevo Usuario
+      <i class="bi bi-plus-circle-fill me-1"></i>Nuevo Usuario
     </button>
   </div>
 
+  <!-- Tabla de usuarios -->
   @if (usuarios.length > 0) {
     <div class="table-responsive shadow-lg rounded">
       <table class="table table-hover table-bordered align-middle text-center">
         <thead class="table-light">
           <tr>
             <th scope="col"><i class="bi bi-hash me-1"></i>ID</th>
-            <th scope="col"><i class="bi bi-person-badge-fill me-1"></i>Nombre</th>
-            <th scope="col"><i class="bi bi-envelope-fill me-1"></i>Correo</th>
-            <th scope="col"><i class="bi bi-telephone-fill me-1"></i>Teléfono</th>
+            <th scope="col"><i class="bi bi-person-fill me-1"></i>Nombre</th>
+            <th scope="col"><i class="bi bi-envelope-at-fill me-1"></i>Correo</th>
+            <th scope="col"><i class="bi bi-telephone-forward-fill me-1"></i>Teléfono</th>
             <th scope="col"><i class="bi bi-geo-alt-fill me-1"></i>Dirección</th>
-            <th scope="col"><i class="bi bi-calendar-event-fill me-1"></i>Fecha Registro</th>
-            <th scope="col"><i class="bi bi-gem me-1 text-primary"></i>Plan</th>
-            <th scope="col"><i class="bi bi-person-lock me-1"></i>Rol</th>
-            <th scope="col"><i class="bi bi-toggle-on me-1"></i>Estado</th>
-            <th scope="col"><i class="bi bi-tools me-1"></i>Acciones</th>
+            <th scope="col"><i class="bi bi-calendar-check-fill me-1"></i>Fecha Registro</th>
+            <th scope="col"><i class="bi bi-stars text-primary me-1"></i>Plan</th>
+            <th scope="col"><i class="bi bi-shield-lock-fill me-1"></i>Rol</th>
+            <th scope="col"><i class="bi bi-circle-fill me-1"></i>Estado</th>
+            <th scope="col"><i class="bi bi-gear-fill me-1"></i>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -35,19 +38,20 @@
               <td class="text-muted">{{ usuario.telefono }}</td>
               <td class="text-muted">{{ usuario.direccion }}</td>
               <td class="text-muted">{{ usuario.fechaRegistro | date:'dd/MM/yyyy' }}</td>
-              <td class="text-muted">{{ usuario.plan}}</td>
+              <td class="text-muted">{{ usuario.plan }}</td>
               <td class="text-muted">{{ usuario.rolNombre }}</td>
               <td class="fw-semibold">
                 <span [ngClass]="usuario.activo ? 'text-success' : 'text-danger'">
+                  <i class="bi me-1" [ngClass]="usuario.activo ? 'bi-check-circle-fill' : 'bi-x-circle-fill'"></i>
                   {{ usuario.activo ? "Activo" : "Inactivo" }}
                 </span>
               </td>
               <td>
                 <button class="btn btn-sm btn-outline-primary me-2" (click)="editarUsuario(usuario)">
-                  <i class="bi bi-pencil-fill"></i>
+                  <i class="bi bi-pencil-square"></i>
                 </button>
                 <button class="btn btn-sm btn-outline-danger" (click)="eliminarUsuarioModal(usuario)">
-                  <i class="bi bi-trash-fill"></i>
+                  <i class="bi bi-trash3-fill"></i>
                 </button>
               </td>
             </tr>
@@ -56,11 +60,14 @@
       </table>
     </div>
   } @else {
+    <!-- Alerta de tabla vacía -->
     <div class="alert alert-warning text-center mt-4" role="alert">
       <i class="bi bi-exclamation-triangle-fill me-2"></i>No hay usuarios para mostrar.
     </div>
   }
 </div>
+
+
 
 <!-- Modal Crear Usuario -->
 <div class="modal fade" id="crearUsuarioModal" tabindex="-1" aria-labelledby="crearUsuarioModalLabel">
