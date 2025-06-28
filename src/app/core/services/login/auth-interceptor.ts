@@ -13,7 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
   //constructor(private loginser:LoginService) { }
   private loginser = inject(LoginService);
 
-  @Injectable()
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
     
     const token = this.loginser.getToken();

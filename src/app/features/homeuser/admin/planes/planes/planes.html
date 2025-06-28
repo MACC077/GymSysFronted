@@ -63,3 +63,60 @@
   }
 </div>
 
+<!-- Modal Crear Plan -->
+<div class="modal fade" id="crearPlanModalLabel" tabindex="-1" aria-labelledby="crearPlanModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow" style="border-radius: 1rem;">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="crearPlanModalLabel">
+          <i class="bi bi-person-plus-fill me-2"></i>Crear Plan
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body bg-light-subtle">
+        <form [formGroup]="formCrearPlan" (ngSubmit)="crearNuevoPlan()">
+          <div class="row g-3">
+            <!-- Nombre -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+            <!-- Descripcion -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Descripcion</label>
+              <input type="text" class="form-control" formControlName="descripcion">
+            </div>
+            <!-- Precio -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Precio</label>
+              <input type="number" class="form-control" formControlName="precio">
+            </div>
+            <!-- Duracion Dias -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Dias</label>
+              <input type="number" class="form-control" formControlName="duracionDias">
+            </div>
+            <!-- Estado -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Estado</label>
+              <select class="form-select" formControlName="activo">
+                <option [value]="true">Activo</option>
+                <option [value]="false">Inactivo</option>
+              </select>
+            </div>
+          </div>
+          <!-- Botones -->
+          <div class="mt-4 text-end">
+            <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+              <i class="bi bi-x-circle me-1"></i>Cancelar
+            </button>
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-circle me-1"></i>Crear
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

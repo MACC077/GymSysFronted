@@ -120,19 +120,21 @@ export class Usuarios implements OnInit {
 
   crearNuevoUsuario():void{
 
-    if(this.formCrearUsuario.valid){
-
-      this.usuarioServices.addUsuario(this.formCrearUsuario.value).subscribe({
-        next:() => {
-          this.toastr.success('Usuario creado correctamente');
-          this.loadUsuarios();
-        },
-        error:(err) => {
-          this.toastr.error('Error al crear el usuario');
-          console.log(err);
-        },
-      });
+    if(!this.formCrearUsuario.valid){
+      this.toastr.warning('Llene correctamente el formulario');
+      return;
     }
+
+    this.usuarioServices.addUsuario(this.formCrearUsuario.value).subscribe({
+      next:() => {
+        this.toastr.success('Usuario creado correctamente');
+        this.loadUsuarios();
+      },
+      error:(err) => {
+        this.toastr.error('Error al crear el usuario');
+        console.log(err);
+      },
+    });
   }
  
   editarUsuario(usuario:Usuario): void{
