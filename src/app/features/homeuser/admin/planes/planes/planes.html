@@ -43,10 +43,10 @@
                 </span>
               </td>
               <td>
-                <button class="btn btn-sm btn-outline-primary me-2" (click)="editarEstado(plan)">
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="abrirModalEditarPlan(plan)">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger" (click)="eliminarEstadoModal(plan)">
+                <button class="btn btn-sm btn-outline-danger" (click)="abrirModalEliminar(plan)">
                   <i class="bi bi-trash3-fill"></i>
                 </button>
               </td>
@@ -69,7 +69,7 @@
     <div class="modal-content shadow" style="border-radius: 1rem;">
       <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="crearPlanModalLabel">
-          <i class="bi bi-person-plus-fill me-2"></i>Crear Plan
+          <i class="bi bi-kanban-fill me-2"></i>Crear Plan
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -115,6 +115,90 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Plan -->
+<div class="modal fade" id="editarPlanModalLabel" tabindex="-1" aria-labelledby="editarPlanModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow" style="border-radius: 1rem;">
+
+      <div class="modal-header" style="background-color: var(--primary-color); color: white;">
+        <h5 class="modal-title" id="editarPlanModalLabel">
+          <i class="bi bi-pencil-fill me-2"></i>Editar Plan
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body bg-light-subtle">
+        <form [formGroup]="formEditarPlan" (ngSubmit)="guardarCambiosPlan()">
+          <div class="row g-3">
+            <!-- Nombre -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+            <!-- Descripcion -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Descripcion</label>
+              <input type="text" class="form-control" formControlName="descripcion">
+            </div>
+            <!-- Precio -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Precio</label>
+              <input type="number" class="form-control" formControlName="precio">
+            </div>
+            <!-- Duracion Dias -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Dias</label>
+              <input type="number" class="form-control" formControlName="duracionDias">
+            </div>
+            <!-- Estado -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Estado</label>
+              <select class="form-select" formControlName="activo">
+                <option [value]="true">Activo</option>
+                <option [value]="false">Inactivo</option>
+              </select>
+            </div>
+          </div>
+          <!-- Botones -->
+          <div class="mt-4 text-end">
+            <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+              <i class="bi bi-x-circle me-1"></i>Cancelar
+            </button>
+            <button type="submit" class="btn" style="background-color: var(--accent-color); color: white;">
+              <i class="bi bi-check-circle me-1"></i>Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Eliminar Plan -->
+<div class="modal fade" id="eliminarPlanModalLabel" tabindex="-1" aria-labelledby="eliminarPlanModalLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-sm" style="border-radius: 0.8rem;">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="eliminarPlanModalLabel">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar Eliminación
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="fw-semibold mb-3">¿Estás seguro de que deseas eliminar este Plan?</p>
+        <div class="d-flex justify-content-center gap-3">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancelar
+          </button>
+          <button type="button" class="btn btn-danger" (click)="eliminarPlan()">
+            <i class="bi bi-trash-fill me-1"></i>Eliminar
+          </button>
+        </div>
       </div>
     </div>
   </div>

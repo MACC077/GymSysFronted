@@ -157,7 +157,6 @@ export class Usuarios implements OnInit {
   
   eliminarUsuarioModal(usuario:Usuario):void{
     this.usuarioSeleccionado = usuario;
-
     const modal = new bootstrap.Modal(document.getElementById('confirmarEliminarModal'));
     modal.show();
   }
@@ -168,7 +167,7 @@ export class Usuarios implements OnInit {
 
       const datosActualizados = { ...this.usuarioSeleccionado, ...this.formEditarUsuario.value };
 
-      console.log(datosActualizados);
+      //console.log(datosActualizados);
 
       this.usuarioServices.updateUsuario(this.usuarioSeleccionado.id, datosActualizados).subscribe({
         next: () => {
@@ -177,7 +176,7 @@ export class Usuarios implements OnInit {
           this.usuarioSeleccionado = null;
         },
         error: (err) => {
-          this.toastr.error('Error al actualizar usuario');
+          this.toastr.error('Error al actualizar Usuario');
           console.log(err);
         }
       });

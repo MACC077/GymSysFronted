@@ -17,6 +17,9 @@ export class Planes implements OnInit {
   planes:Plan[] = [];
 
   formCrearPlan!:FormGroup;
+  formEditarPlan!:FormGroup;
+
+  planSeleccionado:any = null;
 
   constructor(
     private planser:PlanService, 
@@ -33,7 +36,7 @@ export class Planes implements OnInit {
     this.planser.getAllPlanes().subscribe({
       next:(data) => {
         this.planes = data;
-        console.log(this.planes);
+        //console.log(this.planes);
       },
       error:(err) => {
         this.toastr.error('Error al cargar planes');
@@ -49,11 +52,41 @@ export class Planes implements OnInit {
       duracionDias:['',[Validators.required, Validators.min(1)]],
       activo:[true]
     });
+
+    this.formEditarPlan = this.fb.group({
+      nombre:['',Validators.required],
+      descripcion:['',Validators.required],
+      precio:['',[Validators.required,Validators.min(1)]],
+      duracionDias:['',[Validators.required, Validators.min(1)]],
+      activo:['']
+    });
   }
 
   abrirModalCrearPlan():void{
     this.formCrearPlan.reset({activo:true});
     const modal = new bootstrap.Modal(document.getElementById('crearPlanModalLabel')!);
+    modal.show();
+  }
+
+  abrirModalEditarPlan(plan:Plan):void{
+
+    this.planSeleccionado = plan;
+
+    this.formEditarPlan.patchValue({
+      nombre: plan.nombre,
+      descripcion: plan.descripcion,
+      precio: plan.precio,
+      duracionDias: plan.duracionDias,
+      activo: plan.activo
+    });
+
+    const modal = new bootstrap.Modal(document.getElementById('editarPlanModalLabel')!);
+    modal.show();
+  }
+
+  abrirModalEliminar(plan:Plan):void{
+    this.planSeleccionado = plan;
+    const modal = new bootstrap.Modal(document.getElementById('eliminarPlanModalLabel')!);
     modal.show();
   }
 
@@ -76,13 +109,48 @@ export class Planes implements OnInit {
     });
   }
 
-  editarEstado(plan:Plan):void{
+  guardarCambiosPlan():void{
 
+    if(this.formEditarPlan.valid && this.planSeleccionado) {
+
+      const datosActualizados = {...this.planSeleccionado, ...this.formEditarPlan.value }
+
+      this.planser.updatePlan(this.planSeleccionado.id, datosActualizados).subscribe({
+        next:() => {
+          this.toastr.success('Plan actualizado correctamente');
+          this.loadPlanes();
+          this.planSeleccionado = null;
+        },
+        error:(err) => {
+          this.toastr.error('Error al actualizar el Plan');
+          console.log(err);
+        }
+      });
+    }
   }
 
-  eliminarEstadoModal(plan:Plan):void{
+  eliminarPlan():void{
 
+    if(this.planSeleccionado){
+
+      this.planser.changeStatePlan(this.planSeleccionado.id, false).subscribe({
+
+        next:() => {
+          this.toastr.success(`Plan ${this.planSeleccionado?.nombre} anulado correctamente`);
+          this.loadPlanes();
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('eliminarPlanModalLabel')!);
+          modal?.hide();
+
+          this.planSeleccionado = null;
+        },
+
+        error:(err) => {
+          this.toastr.error('Error al anular el Plan');
+          console.log(err);
+        }
+
+      });
+    }
   }
-
-
 }

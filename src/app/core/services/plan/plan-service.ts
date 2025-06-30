@@ -26,14 +26,14 @@ export class PlanService {
   }
 
   updatePlan(id:number, plan:Plan):Observable<Plan>{
-    return this.http.put<Plan>(`${this.apiUrlBase}UpdateRol/${id}`,plan);
+    return this.http.put<Plan>(`${this.apiUrlBase}UpdatePlan/${id}`,plan);
   }
 
-  changeStatePlan(id:number):Observable<Plan>{
-    return this.http.put<Plan>(`${this.apiUrlBase}UpdateRolStatus/${id}`, {});
+  changeStatePlan(id:number, estado:boolean):Observable<Plan>{
+    return this.http.put<Plan>(`${this.apiUrlBase}ChangeStatePlan/${id}`, estado);
   }
 
   deleteUsuario(id: number):Observable<void>{
-    return this.http.delete<void>(`${this.apiUrlBase}DeleteRol/${id}`);
+    return this.http.delete<void>(`${this.apiUrlBase}DeletePlan/${id}`);
   }
 }
