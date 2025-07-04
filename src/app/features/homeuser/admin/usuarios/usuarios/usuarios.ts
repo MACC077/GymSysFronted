@@ -12,7 +12,7 @@ declare var bootstrap: any;
 
 @Component({
   selector: 'app-usuarios',
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.css'
 })

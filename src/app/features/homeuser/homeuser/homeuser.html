@@ -28,6 +28,15 @@
           </a>
         </li>
 
+        
+        @if(user?.rolId === 4){
+          <li class="nav-item">
+            <a class="nav-link nav-btn" routerLink="/homeuser/pagos">
+              <i class="bi bi-cash-coin me-1"></i> Pagos
+            </a>
+          </li>
+        }
+
         @if (user?.rolId === 1) {
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle nav-btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
