@@ -5,15 +5,14 @@
   </h3>
   
   <!-- Botón "Nuevo Pago" -->
-   @if(user?.rolId === 1) {
-        <div class="text-end mb-3">
-            <button class="btn btn-success" (click)="abrirModalCrearPago()">
-                <i class="bi bi-plus-circle-fill me-1"></i>Nuevo Pago
-            </button>
-        </div>
-   }
+  @if(user?.rolId === 1) {
+    <div class="text-end mb-3">
+        <button class="btn btn-success" (click)="abrirModalCrearPago()">
+            <i class="bi bi-plus-circle-fill me-1"></i>Nuevo Pago
+        </button>
+    </div>
+  }
   
-
   <!-- Tabla de usuarios -->
   @if (pagos.length > 0) {
     <div class="table-responsive shadow-lg rounded">
@@ -68,14 +67,15 @@
   }
 </div>
 
-
+<!--Esto solo se va a generar si es admin-->
+@if(user?.rolId === 1) {
 <!-- Modal Crear Pago -->
 <div class="modal fade" id="crearPagoModalLabel" tabindex="-1" aria-labelledby="crearPagoModalLabel">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content shadow" style="border-radius: 1rem;">
       <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="crearPagoModalLabel">
-          <i class="bi bi-kanban-fill me-2"></i>Crear Pago
+          <i class="bi bi-cash-coin me-2"></i>Crear Pago
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -85,7 +85,7 @@
             <!-- Usuario -->
             <div class="col-md-6">
               <label class="form-label fw-semibold" style="color: var(--accent-color);">Usuario</label>
-              <select class="form-select" formControlName="usuario">
+              <select class="form-select" formControlName="usuarioId">
                 <option value="">Seleccione</option>
                 @for(usuario of usuarios; track usuario.id){
                     <option [value]="usuario.id">{{usuario.nombre}} {{usuario.apellido}}</option>
@@ -95,7 +95,7 @@
             <!-- Plan -->
             <div class="col-md-6">
               <label class="form-label fw-semibold" style="color: var(--accent-color);">Plan</label>
-              <select class = "form-select" formControlName="plan">
+              <select class = "form-select" formControlName="planId">
                 <option value="">Seleccione</option>
                 @for (plan of planes; track plan.id) {
                    <option [value]="plan.id">{{plan.nombre}}</option>
@@ -105,10 +105,10 @@
             <!-- Tipo Pago -->
             <div class="col-md-6">
               <label class="form-label fw-semibold" style="color: var(--accent-color);">Tipo Pago</label>
-              <select class = "form-select" formControlName="tipopago">
+              <select class = "form-select" formControlName="tipopagoId">
                 <option value="">Seleccione</option>
-                @for (tipopago of tipospago; track $index) {
-                    <option [value]="">{{ tipospago }}</option>
+                @for (tipopago of tipospago; track tipopago.id) {
+                    <option [value]="tipopago.id">{{ tipopago.nombre }}</option>
                 }
               </select>
             </div>
@@ -141,8 +141,8 @@
   </div>
 </div>
 
+
 <!-- Modal Editar Pago -->
-<!--
 <div class="modal fade" id="editarPagoModalLabel" tabindex="-1" aria-labelledby="editarPagoModalLabel">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content shadow" style="border-radius: 1rem;">
@@ -156,28 +156,43 @@
 
       <div class="modal-body bg-light-subtle">
         <form [formGroup]="formEditarPago" (ngSubmit)="guardarCambiosPago()">
-          <div class="row g-3">
-            
+           <div class="row g-3">
+            <!-- Usuario -->
             <div class="col-md-6">
-              <label class="form-label fw-semibold" style="color: var(--accent-color);">Nombre</label>
-              <input type="text" class="form-control" formControlName="nombre">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Usuario</label>
+              <select class="form-select" formControlName="usuarioId">
+                <option value="">Seleccione</option>
+                @for(usuario of usuarios; track usuario.id){
+                    <option [value]="usuario.id">{{usuario.nombre}} {{usuario.apellido}}</option>
+                }
+              </select>
             </div>
-            
+            <!-- Plan -->
             <div class="col-md-6">
-              <label class="form-label fw-semibold" style="color: var(--accent-color);">Descripcion</label>
-              <input type="text" class="form-control" formControlName="descripcion">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Plan</label>
+              <select class = "form-select" formControlName="planId">
+                <option value="">Seleccione</option>
+                @for (plan of planes; track plan.id) {
+                   <option [value]="plan.id">{{plan.nombre}}</option>
+                }
+              </select>
             </div>
-            
+            <!-- Tipo Pago -->
             <div class="col-md-6">
-              <label class="form-label fw-semibold" style="color: var(--accent-color);">Precio</label>
-              <input type="number" class="form-control" formControlName="precio">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Tipo Pago</label>
+              <select class = "form-select" formControlName="tipopagoId">
+                <option value="">Seleccione</option>
+                @for (tipopago of tipospago; track tipopago.id) {
+                    <option [value]="tipopago.id">{{ tipopago.nombre }}</option>
+                }
+              </select>
             </div>
-            
+            <!-- Fecha Pago -->
             <div class="col-md-6">
-              <label class="form-label fw-semibold" style="color: var(--accent-color);">Dias</label>
-              <input type="number" class="form-control" formControlName="duracionDias">
+              <label class="form-label fw-semibold" style="color: var(--accent-color);">Fecha Pago</label>
+              <input type="date" class="form-control" formControlName="fechaPago">
             </div>
-            
+            <!-- Estado -->
             <div class="col-md-6">
               <label class="form-label fw-semibold" style="color: var(--accent-color);">Estado</label>
               <select class="form-select" formControlName="activo">
@@ -200,7 +215,7 @@
     </div>
   </div>
 </div>
--->
+
 
 <!-- Modal Eliminar Pago -->
 <div class="modal fade" id="eliminarPagoModalLabel" tabindex="-1" aria-labelledby="eliminarPagoModalLabel">
@@ -226,3 +241,4 @@
     </div>
   </div>
 </div>
+}

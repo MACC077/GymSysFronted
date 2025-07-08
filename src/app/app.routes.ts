@@ -9,13 +9,14 @@ import { Servicios } from './features/homeuser/servicios/servicios';
 import { Inicio } from './features/homeuser/inicio/inicio/inicio';
 import { Planes } from './features/homeuser/admin/planes/planes/planes';
 import { Pagos } from './features/homeuser/pagos/pagos/pagos';
+import { authguardGuard } from './core/guards/authguard-guard'; //Guard para proteger el ingreso y validar el TOKEN JWT
 
 export const routes: Routes = [
     //Call components
     { path: 'home', component: Home },
     { path: 'login', component:Login}, 
     //Component with sub-routes
-    { path: 'homeuser', component: Homeuser,
+    { path: 'homeuser', component: Homeuser, canActivate:[authguardGuard],
         children:[
             { path:'', redirectTo:'inicio', pathMatch: 'full'},
             { path: 'inicio', component: Inicio},

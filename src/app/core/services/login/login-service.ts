@@ -44,4 +44,14 @@ export class LoginService {
   isAuthenticated():boolean{
     return !!this.getToken();
   }
+
+  isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp;
+      return Date.now() >= expiry * 1000;
+    } catch {
+      return true;
+    }
+  }
 }
