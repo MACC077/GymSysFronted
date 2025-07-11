@@ -9,6 +9,7 @@ import { Servicios } from './features/homeuser/servicios/servicios';
 import { Inicio } from './features/homeuser/inicio/inicio/inicio';
 import { Planes } from './features/homeuser/admin/planes/planes/planes';
 import { Pagos } from './features/homeuser/pagos/pagos/pagos';
+import { Asistencia } from './features/homeuser/asistencia/asistencia/asistencia';
 import { authguardGuard } from './core/guards/authguard-guard'; //Guard para proteger el ingreso y validar el TOKEN JWT
 
 export const routes: Routes = [
@@ -24,7 +25,8 @@ export const routes: Routes = [
             { path: 'servicios', component: Servicios },
             { path: 'usuarios', component: Usuarios },
             { path: 'planes', component:Planes },
-            { path: 'pagos', component:Pagos }
+            { path: 'pagos', component:Pagos },
+            { path: 'asistencias', component:Asistencia }
         ]
     },
     //Set default page 

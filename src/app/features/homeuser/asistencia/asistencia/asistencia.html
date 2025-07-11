@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <div class="row mb-3">
+    <div class="col-md-5">
+      <label class="form-label fw-semibold">Mes</label>
+      <select class="form-select" [(ngModel)]="selectedMonth" (change)="onMonthYearChange()">
+        @for (month of monthNames; track $index) {
+            <option [value]="$index">{{ month }}</option>
+        }
+      </select>
+    </div>
+    <div class="col-md-5">
+      <label class="form-label fw-semibold">Año</label>
+      <select class="form-select" [(ngModel)]="selectedYear" (change)="onMonthYearChange()">
+        @for (year of years; track $index) {
+            <option [value]="year">{{ year }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+      <button class="btn btn-outline-secondary w-100" (click)="resetToToday()">
+        Hoy
+      </button>
+    </div>
+  </div>
+
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        @for (day of weekDays; track $index) {
+            <th>{{ day }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (week of calendar; track $index) {
+        <tr>
+            @for (day of week; track $index) {
+               <td>
+                    {{ day !== 0 ? day : '' }}
+               </td>
+            }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
