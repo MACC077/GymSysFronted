@@ -16,8 +16,8 @@ export class AsistenciaService {
     return this.http.get<Asistencia[]>(`${this.apiUrlBase}GetAllAsistencias`);
   }
 
-  getAsistencia(id:number):Observable<Asistencia>{
-    return this.http.get<Asistencia>(`${this.apiUrlBase}GetAsistenciaById/${id}`);
+  getAsistencia(id:number):Observable<Asistencia[]>{
+    return this.http.get<Asistencia[]>(`${this.apiUrlBase}GetAsistenciaById/${id}`);
   }
 
   addAsistencia(asistencia:Asistencia):Observable<Asistencia>{

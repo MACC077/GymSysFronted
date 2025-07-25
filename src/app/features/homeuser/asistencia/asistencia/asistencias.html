@@ -36,8 +36,8 @@
       @for (week of calendar; track $index) {
         <tr>
             @for (day of week; track $index) {
-               <td>
-                    {{ day !== 0 ? day : '' }}
+               <td [ngClass]="{'highlight': this.highlightDate(day)}">
+                  {{ day !== 0 ? day : '' }}
                </td>
             }
         </tr>

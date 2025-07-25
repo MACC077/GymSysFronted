@@ -85,3 +85,10 @@ input::placeholder {
   color: white;
 }
 
+.highlight {
+  background-color: #28a745 !important; /* Verde Bootstrap más vivo */
+  color: white;
+  font-weight: bold;
+}
+
+
