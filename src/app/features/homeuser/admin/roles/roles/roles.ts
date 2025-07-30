@@ -29,6 +29,7 @@ export class Roles implements OnInit {
 
   ngOnInit(): void {
     this.loadRoles();
+    this.initModalForm();
   }
 
   loadRoles():void {  
@@ -43,15 +44,49 @@ export class Roles implements OnInit {
     });
   }
 
+  initModalForm():void{
+    this.formCrearRol = this.fb.group({
+      nombre:['',Validators.required]
+    });
+
+    this.formEditarRol = this.fb.group({
+      nombre:['',Validators.required],
+      activo:['']
+    });
+  } 
+
   abrirModalCrearRol():void{
+    const modal = new bootstrap.Modal(document.getElementById('crearRolModalLabel')!);
+    modal.show();
+  }
+
+  abrirModalEditarRol(rol:Rol):void{
+    this.rolSeleccionado = rol;
+
+    this.formEditarRol.patchValue({
+      nombre: rol.nombre,
+      activo: rol.activo
+    });
+
+    const modal = new bootstrap.Modal(document.getElementById('editarRolModalLabel')!);
+    modal.show();
+  }
+
+  abrirModalEliminarRol(rol:Rol):void{
+    this.rolSeleccionado = rol;
+    const modal = new bootstrap.Modal(document.getElementById('eliminarRolModalLabel')!);
+    modal.show();
+  }
+
+  crearNuevoRol():void{
 
   }
 
-  abrirModalEditarPago(rol:Rol):void{
+  guardarCambiosRol():void{
 
   }
 
-  abrirModalEliminarPago(rol:Rol):void{
+  eliminarRol():void{
 
   }
 }

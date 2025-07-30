@@ -56,16 +56,18 @@ export class Asistencias implements OnInit {
   loadAsistencias(id:number):void{
     this.asistenciaService.getAsistencia(id).subscribe({
       next:(data) => {
+        //Valido primero que sea un array valido, ya que el backend retorna un mensaje o un arreglo
+        if (!Array.isArray(this.asistencias) || this.asistencias.length === 0){
+          this.toastr.warning('No se encontraron asistencias');
+          return;
+        }
+
         this.asistencias = data;
-        console.log(data);
-        
+
         this.asistenciasSet = new Set(
           this.asistencias.map(a => this.formatDateToKey(a.fechaRegistro))
         );
 
-        if (this.asistencias.length === 0){
-          this.toastr.warning('No se encontraron asistencias');
-        }
       },
       error: (err) => {
         this.toastr.error('Error al cargar asistencias');
