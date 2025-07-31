@@ -214,7 +214,6 @@ export class Pagos implements OnInit {
         next: () => {
           this.toastr.success('Pago actualizado correctamente');
           this.loadPagos();
-          this.pagoSelccionado = null;
         },
         error: (err) => {
           this.toastr.error('Error al actualizar el Pago');

@@ -119,7 +119,6 @@ export class Planes implements OnInit {
         next:() => {
           this.toastr.success('Plan actualizado correctamente');
           this.loadPlanes();
-          this.planSeleccionado = null;
         },
         error:(err) => {
           this.toastr.error('Error al actualizar el Plan');

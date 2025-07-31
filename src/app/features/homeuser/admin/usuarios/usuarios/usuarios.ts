@@ -173,7 +173,6 @@ export class Usuarios implements OnInit {
         next: () => {
           this.toastr.success('Usuario actualizado correctamente');
           this.loadUsuarios(); // refresca tabla
-          this.usuarioSeleccionado = null;
         },
         error: (err) => {
           this.toastr.error('Error al actualizar Usuario');

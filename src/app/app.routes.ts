@@ -11,6 +11,7 @@ import { Planes } from './features/homeuser/admin/planes/planes/planes';
 import { Pagos } from './features/homeuser/pagos/pagos/pagos';
 import { Asistencias } from './features/homeuser/asistencia/asistencia/asistencias';
 import { Roles } from './features/homeuser/admin/roles/roles/roles';
+import { Tipospago } from './features/homeuser/admin/tipospago/tipospago/tipospago';
 import { authguardGuard } from './core/guards/authguard-guard'; //Guard para proteger el ingreso y validar el TOKEN JWT
 
 export const routes: Routes = [
@@ -28,7 +29,8 @@ export const routes: Routes = [
             { path: 'planes', component:Planes },
             { path: 'pagos', component:Pagos },
             { path: 'asistencias', component:Asistencias },
-            { path: 'roles', component:Roles }
+            { path: 'roles', component:Roles },
+            { path: 'tipospago', component:Tipospago }
         ]
     },
     //Set default page 

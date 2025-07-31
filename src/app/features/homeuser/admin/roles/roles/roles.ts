@@ -79,14 +79,63 @@ export class Roles implements OnInit {
   }
 
   crearNuevoRol():void{
+    if(!this.formCrearRol.valid){
+      this.toastr.warning('Llene correctamente el formulario');
+      return;
+    }
 
+    this.rolService.addRol(this.formCrearRol.value).subscribe({
+      next:() => {
+        this.toastr.success('Rol creado correctamente');
+        this.loadRoles();
+      },
+      error:(err) => {
+        this.toastr.error('Error al crear el rol');
+        console.log(err);
+      }
+    });
   }
 
   guardarCambiosRol():void{
 
+    if(this.formEditarRol.valid && this.rolSeleccionado) {
+      
+      const datosActualizados = {...this.rolSeleccionado, ...this.formEditarRol.value }
+
+      this.rolService.updateRol(this.rolSeleccionado.id, datosActualizados).subscribe({
+        next:() => {
+          this.toastr.success('Rol actualizado correctamente');
+          this.loadRoles();
+        },
+        error: (err) => {
+          this.toastr.error('Error al actualizar el Rol');
+          console.log(err);
+        },
+      });
+    }
   }
 
   eliminarRol():void{
 
+    if(this.rolSeleccionado) {
+
+      this.rolService.changeStateRol(this.rolSeleccionado.id, false).subscribe({
+        next:() => {
+          this.toastr.success(`Rol ${this.rolSeleccionado?.nombre} anulado correctamente`);
+          this.loadRoles();
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('eliminarRolModalLabel')!);
+          modal?.hide();
+
+          this.rolSeleccionado = null;
+        },
+
+        error:(err) => {
+          this.toastr.error('Error al anular el Rol');
+          console.log(err);
+        }
+
+      });
+    }
   }
 }
