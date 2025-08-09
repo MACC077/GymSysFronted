@@ -29,8 +29,8 @@ export class TipopagoService {
     return this.http.put<Tipopago>(`${this.apiUrlBase}UpdateTipoPago/${id}`, tipopago);
   }
 
-  changeStateTipoPago(id: number, estado: boolean): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrlBase}ChangeStateTipoPago/${id}`, { estado });
+  changeStateTipoPago(id: number, estado: boolean): Observable<Tipopago> {
+    return this.http.put<Tipopago>(`${this.apiUrlBase}ChangeStateTipoPago/${id}`, estado);
   }
 
   deleteTipoPago(id: number): Observable<any> {

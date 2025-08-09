@@ -29,7 +29,7 @@ export class AsistenciaService {
   }
 
   changeStateAsistencia(id:number, estado:boolean):Observable<Asistencia>{
-    return this.http.patch<any>(`${this.apiUrlBase}ChangeStateAsistencia/${id}`, {estado});
+    return this.http.put<Asistencia>(`${this.apiUrlBase}ChangeStateAsistencia/${id}`, estado);
   }
 
   deleteAsistencia(id:number):Observable<any>{
